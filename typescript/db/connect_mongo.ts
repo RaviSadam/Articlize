@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const MONGO_URL:string=process.env.MONGO_URL||"mongodb+srv://ravi:t1RPP6hSll1uSfqc@ravi.zdukcmr.mongodb.net/Blogger";
+const MONGO_URL:string=process.env.MONGO_URL||"**";
 const connectMongo=function():void{
     mongoose
         .connect(MONGO_URL)

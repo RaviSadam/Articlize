@@ -23,8 +23,8 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
-const SESSION_SECRET_KEY:string=process.env.SESSION_SECRET_KEY||"seacretKey123";
-const MONGO_URL:string=process.env.MONGO_URL || "mongodb+srv://ravi:t1RPP6hSll1uSfqc@ravi.zdukcmr.mongodb.net/Blogger";
+const SESSION_SECRET_KEY:string=process.env.SESSION_SECRET_KEY||"seacret";
+const MONGO_URL:string=process.env.MONGO_URL || "***";
 
 app.use(session({
     secret:SESSION_SECRET_KEY,

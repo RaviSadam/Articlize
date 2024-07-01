@@ -56,8 +56,8 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(body_parser_1.default.json());
-const SESSION_SECRET_KEY = process.env.SESSION_SECRET_KEY || "seacretKey123";
-const MONGO_URL = process.env.MONGO_URL || "mongodb+srv://ravi:t1RPP6hSll1uSfqc@ravi.zdukcmr.mongodb.net/Blogger";
+const SESSION_SECRET_KEY = process.env.SESSION_SECRET_KEY || "seacret";
+const MONGO_URL = process.env.MONGO_URL || "***";
 app.use((0, express_session_1.default)({
     secret: SESSION_SECRET_KEY,
     resave: false,

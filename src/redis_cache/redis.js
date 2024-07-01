@@ -17,8 +17,8 @@ exports.default = default_1;
 const redis_1 = require("redis");
 const blog_schema_1 = __importDefault(require("../db/blog_schema"));
 const compress_1 = __importDefault(require("../compress_decompress/compress"));
-const password = process.env.REDIS_PASSWORD || "Ravi@9390";
-const host = process.env.REDIS_HOST || "redis-10287.c309.us-east-2-1.ec2.redns.redis-cloud.com";
+const password = process.env.REDIS_PASSWORD || "**";
+const host = process.env.REDIS_HOST || "**";
 const username = process.env.REDIS_USERNAME || "default";
 let client;
 function default_1() {

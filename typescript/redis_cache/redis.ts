@@ -5,8 +5,8 @@ import Compress from "../compress_decompress/compress";
 
 
 
-const password:string=process.env.REDIS_PASSWORD||"Ravi@9390";
-const host:string=process.env.REDIS_HOST || "redis-10287.c309.us-east-2-1.ec2.redns.redis-cloud.com";
+const password:string=process.env.REDIS_PASSWORD||"**";
+const host:string=process.env.REDIS_HOST || "**";
 const username:string=process.env.REDIS_USERNAME || "default";
 let client: RedisClientType;
 
