@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Form</title>
+    <link rel="stylesheet" href="/css/registration.css">
+</head>
+<body>
+    <div class="container">
+        <h1>User Registration Form</h1>
+        <form autocomplete="on" id="userForm" action="/user/register" method="post" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" minlength="5" maxlength="20" required>
+            </div>
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" min="1" max="80">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" id="phone" name="phone">
+            </div>
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" minlength="3" maxlength="30" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName">
+            </div>
+            
+            <div class="form-group">
+                <label for="hobbies">Hobbies</label>
+                <input type="text" id="hobbies" name="hobbies">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" minlength="8" maxlength="15">
+            </div>
+            <div class="form-group">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        function validateForm(){
+            const username = form.username.value.trim();
+            const email = form.email.value.trim();
+            const phone = form.phone.value.trim();
+            const panNumber = form.panNumber.value.trim();
+            const pincode = form.pincode.value.trim();
+            const emailPattern = /^[\w.-]+@[\w.-]+\.\w{2,3}$/;
+            const phonePattern = /^(\+([1-9]{1,2}))?([1-9][0-9]{9})$/;
+            const panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+            const pincodePattern = /^[0-9]{6}$/;
+            if (!emailPattern.test(email)) {
+                alert('Please provide a valid email address');
+                return false;
+            }
+        
+            if (phone && !phonePattern.test(phone)) {
+                alert('Invalid Mobile Number');
+                return false;
+            }
+        
+            if (panNumber && !panPattern.test(panNumber)) {
+                alert('Invalid PAN number');
+                return false;
+            }
+        
+            if (pincode && !pincodePattern.test(pincode)) {
+                alert('Invalid PIN code');
+                return false;
+            }
+        
+            alert('Form submitted successfully!');
+            return true;
+
+        }
+
+    </script>
+</body>
+</html>

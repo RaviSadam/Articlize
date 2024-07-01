@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/css/login.css" >
+</head>
+<body>
+    <div class="container">
+        <% if(data){ %>
+            <p class="message"><%= data%></p>
+        <% } %>
+        <h1>Login</h1>
+        <form action="/user/login" method="post" id="loginForm" onsubmit="return validateLoginForm()">
+            <div class="form-group">
+                <label for="email">username</label>
+                <input type="text" id="email" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" minlength="6" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Login</button>
+            </div>
+        </form>
+        <script>
+            function validateLoginForm(){
+                const form = document.getElementById('loginForm');
+                const params = new URLSearchParams(window.location.search);
+                if (params.toString()) {
+                    form.action = form.action + '?' + params.toString();
+                }
+                return true;
+            }
+        </script>
+    </div>
+</body>
+</html>

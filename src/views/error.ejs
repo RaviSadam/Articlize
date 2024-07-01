@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link rel="stylesheet" href="/css/error.css">
+    <link rel="icon" href="http://sstatic.net/stackoverflow/img/favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <h1 style="color: #f81b02;font-weight: bold;font-family:Georgia, 'Times New Roman', Times, serif">Error</h1>
+        <div class="error-code"><%=errorCode%></div>
+        <div class="error-message" ><%=errorMessage%></div>
+        <div class="request-info">
+            <div>Request Path:  <span class="green-color" ><%=requestPath %></span></div>
+            <div>Request Method:  <span class="green-color" ><%=requestMethod%></span></div>
+        </div>
+
+        <div class="button-container">
+            <% if(isLoggedIn){ %>
+                <a href="/home" class="home-button">Home</a>
+            <% }else{ %>
+                <a  href="/user/login" class="login-button">Login</a>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

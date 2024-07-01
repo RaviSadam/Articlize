@@ -1,0 +1,105 @@
+
+
+<!--
+    isLoggedIn
+    blogTitle
+    body
+    user
+    likes
+    liked
+    isLoggedIn
+    blogId
+    APi-: api/articles/${articleId}/like response data.likes
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title th:text="${blog.title}">Read</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <link href="/css/read.css" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#8be6dd;margin-bottom:10px;border-radius:10px">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item list">
+                        <a class="nav-link list-item" href="/home">Home</a>
+                    </li>
+                    <!-- Display these items only if the user name is not null -->
+                    <% if(isLoggedIn){ %>
+                        <li class="nav-item list">
+                            <a class="nav-link list-item" href="/blog/pending-write">Pick Article</a>
+                        </li>
+                        <li class="nav-item list">
+                            <a class="nav-link list-item" href="/blog/posts">My Articles</a>
+                        </li>
+                        <li class="nav-item list">
+                            <a class="nav-link list-item" href="/user/logout">Logout</a>
+                        </li>    
+                    <% }else{ %>
+                        <li class="nav-item list">
+                            <a class="nav-link list-item" href="/user/login">Login</a>
+                        </li>        
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+
+    <div class="article-container">
+        <h1 ><%=blogTitle%></h1>
+        <p><%=body%></p>
+        <div class="author-info">
+            <p>Author: <span class="auther"><%=user%></span></p>
+        </div>
+        
+        <% if(liked && !review){ %>
+            <button class="like" disabled><i id="likeIcon" style="font-size:26px" class="fa fa-thumbs-up"></i></button>
+            <span class="like-count"><%=likes %></span>
+        <% } else if(!isLoggedIn && !review){ %>
+            <button class="like" disabled><i id="likeIcon" style="font-size:26px" class="fa fa-thumbs-up"></i></button>
+            <span class="like-count"><%=likes %></span>
+        <% }else if(!review){ %>
+            <button  class="like" onclick="likeArticle()"> <i id="likeIcon" style="font-size:26px" class="fa fa-thumbs-o-up"></i></button>
+            <span class="like-count"><%=likes %></span>
+        <% } else{%>
+            <a class="review button btn btn-primary" href="/blog/review-success/?blogId=<%=blogId%>">Done</a>
+        <% } %>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <script>
+        const blogId='<%=blogId%>';
+        const likes='<%=likes%>';
+        function likeArticle() {
+            const likeButton = document.querySelector('.like');
+            const likeIcon = document.querySelector('#likeIcon');
+
+            fetch(`/api/likes/${blogId}`, {
+                method: 'GET'
+            })
+            .then((res)=>{
+                const likeCountElement = document.querySelector('.like-count');
+                likeCountElement.innerHTML = parseInt(likes) + 1;
+                likeButton.disabled = true;
+                likeIcon.className = 'fa fa-thumbs-up';
+            })
+            .catch(error => console.error('Error liking article:', error));
+        }
+    </script>
+</body>
+</html>

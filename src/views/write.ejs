@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Write Blog</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+    <link href="/css/write.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="error-message">
+        Auto Save not working. Please save article before closing tab🙂
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#8be6dd">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item list">
+                        <a class="nav-link list-item" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item list">
+                        <a class="nav-link list-item" href="/blog/pick">Pick Article</a>
+                    </li>
+                    <li class="nav-item list">
+                        <a class="nav-link list-item" href="/blog/posts">My Articles</a>
+                    </li>
+                    <li class="nav-item list">
+                        <a class="nav-link list-item" href="/user/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div id="content">
+        <strong style="margin: 3px;">Post Title</strong>
+        <p id="title"><%= blogTitle %></p>
+        <div id="textAreaContainer">
+            <% if(!readOnly){ %>
+                <div id="editor">
+                    <p id="initialText"></p>
+                </div>
+            <% }%>
+
+        </div>
+        <div id="buttonsContainer">
+            <button id="submit" onclick="submitForReview()" class="button btn btn-primary">Submit for review</button>
+            <button id="save" onclick="saveArticle()" class="button btn btn-success">Save</button>
+            <a class="button btn btn-danger" href="/blog/discard/?blogId=<%=blogId%>">Discard</a>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js" integrity="sha512-UOoJElONeUNzQbbKQbjldDf9MwOHqxNz49NNJJ1d90yp+X9edsHyJoAs6O4K19CZGaIdjI5ohK+O2y5lBTW6uQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-css.min.js" integrity="sha512-mHqYW9rlMztkE8WFB6wIPNWOVtQO50GYBsBRMyA1CMk34zLJ6BrvVy3RVHoIIofugmnoNLGxkuePQ9VT2a3u8w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        let body='<%= JSON.stringify(body)%>';
+        const blogId = '<%-blogId%>';
+        const blogTitle='<%=blogTitle%>';
+        const commentArea = document.getElementById("comment-area");
+        const charCnt = document.getElementById("charCnt");
+        notRedColor=true
+
+        body=body.slice(5,body.length-5);
+       
+        const quill = new Quill('#editor', {
+          theme: 'snow',
+          bounds:"#textAreaContainer",
+        });
+        quill.setText(body);
+
+        function submitForReview() {
+            var title = document.getElementById("title").value;
+            var content = quill.getText(0,quill.getLength());
+            var data={
+                blogId:blogId,
+                content:content,
+                blogTitle:blogTitle
+            };
+            fetch("/blog/review", {
+                    method: "PUT",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if(response.redirected)
+                        window.location.href = response.url
+                    
+                })
+                .catch(error => {
+                    console.error("Error submitting post:", error);
+                });
+        }
+
+        function saveArticle() {
+            var title = document.getElementById("title").value;
+            var content = quill.getText(0,quill.getLength()-1);
+            var data={
+                blogId:blogId,
+                content:content,
+                blogTitle:blogTitle
+            };
+            fetch("/api/save", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    alert("Post saved successfully");
+                })
+                .catch(error => {
+                    alert("Error while saving post:", error);
+                });
+        }
+
+        
+    </script>
+</body>
+
+</html>
