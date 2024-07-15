@@ -48,7 +48,7 @@ Welcome to the Blogging Portal project! This application allows users to registe
 
    ```bash
    git clone https://github.com/yourusername/Articlize.git
-   cd blogging-portal
+   cd Articlize
    ```
 
 2. Install dependencies:
